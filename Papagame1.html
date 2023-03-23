@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<html>
+<head>
+<title>WAFLASH - list.l3m0n.me</title>
+<link rel="stylesheet" href="style.css">
+<script>
+		var gameConfig = {
+			swfUrl: "https://l3m0n-cao.github.io/papa-sushiria/papassushiria.swf"		
+		}
+	</script></head>
+<body>
+<a target="_blank" href="https://list.l3m0n.me/" title="list.l3m0n.me" id="vse-logo" style="box-shadow:none;width:100px; height:13px;display:block;z-index: 9999999;position:absolute;right:43px;top:3px">list.l3m0n.me</a>
+<div id="waflashContainer">
+<canvas class="waflashCanvas" id="canvas" tabindex="1"></canvas>
+<div id="waflashStatus" style="display: none;">Playing...</div>
+<script>
+		var ua = navigator.userAgent.toLowerCase();
+		if ( (navigator.appName == 'Netscape' && ua.indexOf('trident') != -1) || (ua.indexOf("msie") != -1)) {
+    		var waf = document.getElementById('waflashStatus');
+			waf.style.display = 'block';
+			waf.innerText = 'This wont work on your current browser!\nPlease change to a newer browser like chrome, firefox, etc.';
+			gtag('event', 'connect_from_ie', {'event_category': 'error', 'event_label': ua });
+		}
+	</script>
+<script type="module" crossorigin="anonymous">
+		let is_mobile = /Mobi/i.test(window.navigator.userAgent);
+		if (is_mobile) {
+			function scrollToSubject() {
+				try {
+					window.scrollTo({
+						top: 100,
+						left: 0,
+						behavior: 'smooth'
+					});
+				} catch (e) {}
+			}
+			scrollToSubject();
+			window.addEventListener("orientationchange", function() {
+				setTimeout(scrollToSubject, 100);
+			});
+		} else {
+			document.getElementById('canvas').focus();
+		}
+		document.getElementById('canvas').addEventListener("keydown", function(ev) {
+			ev.preventDefault();
+			ev.stopPropagation();
+		});
+		document.addEventListener("mousedown", (function() {
+			const canvasElement = document.getElementById('canvas');
+			let focused = false;
+			return function(ev) {
+				if (ev.target == canvasElement) {
+					if (!focused) {
+						canvasElement.focus();
+						focused = true;
+					}
+				} else {
+					if (focused) {
+						focused = false;
+					}
+				}
+				return true;
+			}
+		})());
+		import {
+			createWaflash
+		} from './wasm/waflash-player.min.js';
+		createWaflash(gameConfig.swfUrl, window.wafOptions || {});
+	</script>
+</div>
+</body>
+</html>
